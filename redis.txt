@@ -1,0 +1,8 @@
+1.spring boot集成redis
+1）添加依赖
+
+
+
+
+
+2.sentinel & cluster

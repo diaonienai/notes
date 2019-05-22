@@ -1,0 +1,77 @@
+0.多态
+多态的本质就是接口与实现分离，外部调用只与接口打交道，通过继承或者通过实现接口的导出类有不同的实现，实现多态的前提条件是方法动态绑定，即在运行时确定一个对象的类型信息
+
+1.转义
+&:&amp;
+":&quot;
+
+2.obj.instanceOf(class) 和 class.isInstance(obj)
+若obj能向上转型成class类型，则返回true
+
+3.泛型通配符
+? extends Fruit，在写入时不能插入Fruit或者Apple，甚至Object都不能插入，因为不能确定类型，在读取时用Fruit来接
+? super Apple，在写入时可以插入Apple或者Aplle的子类，读取时只能知道是Object的子类，所以要强制类型转换
+PECS法则：
+1）如果你需要一个提供E类型元素的集合，用extends，它好比一个生产者，可以提供数据
+2)如果你需要一个只能装入E类型元素的几个，用super，它好比一个消费者，可以存储你提供的数据
+
+4.栈，堆，静态储存区
+栈：存放基本类型以及对象引用(int a = 3;int b = 3,此时a,b指向同一个内存空间)
+
+5.hashCode()与equals()
+Object类hashCode()方法使用对象地址计算散列码
+Object类equals()方法比较的是堆中存放对象的内存地址，各种派生类会重写，重写之后比较的是内容，比如Integer，String
+
+6.HashMap实现原理
+根据key值的对象调用hashCode()方法，再经过处理生成散列码，根据散列码（下标）查询数组，得到一个LinkedList，因为不同的对象可能会有相同的hashCode(),所以这里要一个LinkedList，泛型的类型是MapEntry<key,value>，然后根据equals()方法对key进行线性查询。因此，如果使用HashMap的键是自定义类的时候，必须覆盖hashCode()和equals()方法。
+还可以得出这样一个结论，hashCode()产生的结果不是独一无二的，但是hashCode()和equals()方法必须能够完全确定一个对象的身份。
+
+7.HashSet
+HashSet是基于HashMap实现，底层使用HashMap保存所有元素，因此，HashSet中的元素，只是存放在底层HashMap的key上，而value是一个static final的Object，所以HashSet中的相关操作，都是调用底层HashMap的相关方法完成，比如add()就是调用HashMap中的put()。
+
+8.容器的选择
+List:经常查询用ArrayList，经常插入和删除用LinkedList
+Set:首选HashSet，在添加和查询元素时，HashSet比TreeSet好，TreeSet唯一存在的原因是它可以维持元素的排序状态，而且迭代比HashSet快，LinkedHashSet保证访问顺序是插入的顺序，插入操作代价比HashSet高，迭代速度最快
+Map:首选HashMap，TreeMap通常比HashMap慢，它保证有序，而LinkedHashMap在插入时比HashMap慢，因为它维护散列数据同时还要维护链表（以保证插入顺序），但是它迭代速度更快
+
+9.启动顺序context-param -> listener -> filter -> servlet
+
+10.对象创建过程
+(1)当首次创建对象或者首次访问对象静态字段时，查找类路径，定位类.class文件
+(2）载入类.class文件，初始化静态字段和方法，且只会初始化一次
+(3)当用new创建对象时，在堆上分配内存空间
+(4)初始化基本数据类型，引用初始化为null
+(5)初始化字段定义处
+(6)执行构造器
+
+11.servlet的本质
+servlet就是一个实现了HttpServlet的类，这个类专门用来处理用户请求
+web容器，比如tomcat才是与客户端打交道，监听端口，根据url调用相应的servlet的service方法处理请求，servlet返回结果到web容器，web容器再将结果返回客户端
+
+
+12.静态代理与动态代理
+静态代理是指代理类与被代理类在编译期确定，可通过继承或者组合方式进行静态代理
+动态代理是指在运行时为被代理类产生代理类，也可为没有实现类的接口实现一个代理实例
+jdk动态代理只能为实现了接口的类实现代理
+cglib是针对类实现代理，对目标类产生一个子类，通过方法拦截技术拦截所有父类方法的调用
+
+13.
+<%@ include file = "Static.txt" %>
+静态包含，生成一个servlet
+<jsp:include page="Dyamic.jsp" flush="true"></jsp:include>
+动态包含，生成两个servlet
+
+14.String StringBuilder StringBuffer
+String每次操作都会生成一个新的对象
+StringBuidler每次操作都是同一个对象，StringBuffer只是在StringBuilder的方法加多了一个synchronized关键字，保证线性安全
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,5 @@
+1.application.properties
+比如profile = dev，先加载application.properties，再加载application-dev.properties
+在类上标注@profile("dev")，只会在profile = dev时注入到容器中
+
+2.
